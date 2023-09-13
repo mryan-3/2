@@ -12,6 +12,7 @@ Before you can run the Supabase API, make sure you have the following prerequisi
 
 Follow these steps to set up and run the Supabase API:
 
+
 1. Clone the repository:
 
    git clone [https://github.com/your-username/your-repo.git](https://github.com/mryan-3/HNG2.git)
