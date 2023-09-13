@@ -1,4 +1,4 @@
-# API README
+# CRUD API 
 
 This README provides instructions for setting up, running, and using the Supabase database, which is built using Node.js and Express.js. The API allows you to perform basic CRUD (Create, Read, Update, Delete) operations on a "users" table in a Supabase database.
 
@@ -28,7 +28,7 @@ Follow these steps to set up and run the Supabase API:
 
    SUPABASE_URL=your-supabase-url
    SUPABASE_KEY=your-supabase-api-key
-   PORT=3000 # Optional: Customize the port if needed
+   PORT=7000 # Optional: Customize the port if needed
 
    Replace `your-supabase-url` and `your-supabase-api-key` with your actual Supabase credentials.
 
@@ -36,7 +36,7 @@ Follow these steps to set up and run the Supabase API:
 
    npm start
 
-   The API will run on the specified port (default: 3000).
+   The API will run on the specified port (default: 7000).
 
 ## Using the API
 
@@ -86,36 +86,33 @@ The Supabase API supports the following endpoints:
 
 ## Example API Requests
 
-Here are some example API requests using [curl](https://curl.se/) for testing purposes:
+Here are some example API requests using [curl](https://stagetwo-dgvj.onrender.com/api) https://stagetwo-dgvj.onrender.com/api for testing purposes:
 
 ### Fetch All Users
-
-curl http://localhost:3000/api
+[https://stagetwo-dgvj.onrender.com/api](https://stagetwo-dgvj.onrender.com/api)
 
 ### Fetch a User by ID
-
-curl http://localhost:3000/api/1
+[https://stagetwo-dgvj.onrender.com/api/12](https://stagetwo-dgvj.onrender.com/api/12)
 
 ### Fetch a User by Name
-
-curl http://localhost:3000/api/johndoe
+[https://stagetwo-dgvj.onrender.com/api/johndoe](https://stagetwo-dgvj.onrender.com/api/johndoe)
 
 ### Add a User
 
 
-curl -X POST -H "Content-Type: application/json" -d '{"name": "newuser"}' http://localhost:3000/api
+curl -X POST -H "Content-Type: application/json" -d '{"name": "newuser"}' https://stagetwo-dgvj.onrender.com/api
 
 
 ### Update a User by ID
 
 
-curl -X PUT -H "Content-Type: application/json" -d '{"name": "updatedname"}' http://localhost:3000/api/1
+curl -X PUT -H "Content-Type: application/json" -d '{"name": "updatedname"}' https://stagetwo-dgvj.onrender.com/api/12
 
 
 ### Delete a User by Name
 
 
-curl -X DELETE http://localhost:3000/api/johndoe
+curl -X DELETE https://stagetwo-dgvj.onrender.com/api/johndoe
 
 
 ## Error Handling
