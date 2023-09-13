@@ -131,8 +131,8 @@ app.put('/api/:identifier', async (req, res) => {
       return res.status(400).json({ error : "Invalid name format"})
     }
 
-    const isUUID = /^[0-9a-fA-F-]{36}$/.test(identifier);
-    const filterKey = isUUID ? 'id' : 'name'
+    const isNumber = !isNaN(identifier)
+    const filterKey = isNumber ? 'id' : 'name'
     if (filterKey === 'name'){
       const { data: user, error } = await supabase
       .from('users')
@@ -144,7 +144,7 @@ app.put('/api/:identifier', async (req, res) => {
       const { data: user, error } = await supabase
         .from('users')
         .update({ name })
-        .match({ id : req.params.identifier })
+        .eq(filterKey, identifier);
       if (error) throw error;
       res.json(user);
     }     
@@ -156,20 +156,38 @@ app.put('/api/:identifier', async (req, res) => {
 
 // Delete a user
 app.delete('/api/:identifier', async (req, res) => {
-    try {
-      const identifier = req.params.identifier;
-      const isUUID = /^[0-9a-fA-F-]{36}$/.test(identifier);
-      const filterKey = isUUID ? 'id' : 'name';
+  try {
+    const identifier = req.params.identifier;
+
+    if (isNaN(identifier)) {
+      const filterKey = 'name';
+
       const { error } = await supabase
         .from('users')
         .delete()
-        .eq(filterKey, identifier)
-      if (error) throw error;
-      res.sendStatus(204);
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: 'An error occurred' });
+        .eq(filterKey, identifier);
+
+      if (error) {
+        throw error;
+      }
+    } else {
+      const filterKey = 'id';
+
+      const { error } = await supabase
+        .from('users')
+        .delete()
+        .eq(filterKey, identifier);
+
+      if (error) {
+        throw error;
+      }
     }
+
+    res.sendStatus(204);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'An error occurred' });
+  }
 });
 
 const port = process.env.PORT || 3000; // Use the provided port or 3000 as a default
