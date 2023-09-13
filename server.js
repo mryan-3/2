@@ -156,23 +156,43 @@ app.put('/api/:identifier', async (req, res) => {
 
 // Delete a user
 app.delete('/api/:identifier', async (req, res) => {
-    try {
-      const identifier = req.params.identifier;
-      const isUUID = /^[0-9a-fA-F-]{36}$/.test(identifier);
-      const filterKey = isUUID ? 'id' : 'name';
+  try {
+    const identifier = req.params.identifier;
+
+    if (isNaN(identifier)) {
+      // Identifier is a name
+      const filterKey = 'name';
+
       const { error } = await supabase
         .from('users')
         .delete()
-        .eq(filterKey, identifier)
-      if (error) throw error;
-      res.sendStatus(204);
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: 'An error occurred' });
+        .eq(filterKey, identifier);
+
+      if (error) {
+        throw error;
+      }
+    } else {
+      // Identifier is an ID
+      const filterKey = 'id';
+
+      const { error } = await supabase
+        .from('users')
+        .delete()
+        .eq(filterKey, identifier);
+
+      if (error) {
+        throw error;
+      }
     }
+
+    res.sendStatus(204);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'An error occurred' });
+  }
 });
 
-const port = process.env.PORT || 3000; // Use the provided port or 3000 as a default
+const port = process.env.PORT || 7000; // Use the provided port or 7000 as a default
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`)
 })
