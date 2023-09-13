@@ -131,8 +131,8 @@ app.put('/api/:identifier', async (req, res) => {
       return res.status(400).json({ error : "Invalid name format"})
     }
 
-    const isUUID = /^[0-9a-fA-F-]{36}$/.test(identifier);
-    const filterKey = isUUID ? 'id' : 'name'
+    const isNumber = !isNaN(identifier)
+    const filterKey = isNumber ? 'id' : 'name'
     if (filterKey === 'name'){
       const { data: user, error } = await supabase
       .from('users')
@@ -144,7 +144,7 @@ app.put('/api/:identifier', async (req, res) => {
       const { data: user, error } = await supabase
         .from('users')
         .update({ name })
-        .match({ id : req.params.identifier })
+        .eq(filterKey, identifier);
       if (error) throw error;
       res.json(user);
     }     
